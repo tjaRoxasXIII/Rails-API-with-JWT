@@ -24,7 +24,6 @@ class ApplicationController < ActionController::API
         end
     end
 
-
     def session_user
         decoded_hash = decoded_token
         if !decoded_hash.empty?

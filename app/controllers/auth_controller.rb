@@ -1,13 +1,13 @@
 class AuthController < ApplicationController
-
+    skip_before_action :require_login, only: [:login, :auto_login]
     # Calling this route will respond with a user and a JWT token if successfully authenticated
     def login
-        user = User.find_by(email: params[:email])
+        user = User.find_by(email: params[:user][:email])
 
         if(!user)
             render json: { error: "No account associated with this email exists" }, status: :unauthorized
         else   
-            if user.authenticate(params[:password])
+            if user.authenticate(params[:user][:password])
                 token = JWT.encode({
                     user_id: user.id,
                     name: user.name,
